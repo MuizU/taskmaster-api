@@ -12,7 +12,16 @@ app.get("/", (_req, res) => {
 
 app.use("/todos", todosRouter);
 
-const PORT = 9000;
+app.use((error, _req, res, _next) => {
+  console.error(error);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+
+app.use((_req, res) => {
+  res.status(404).json({ error: "Not Found" });
+});
+
+const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
