@@ -29,6 +29,7 @@ cd taskmaster-api`
 
 2. **Install dependencies:**
 <br>
+
 `npm install`
 
 3. **Set up the database**
@@ -41,4 +42,5 @@ cd taskmaster-api`
 
 5. **Run the application**
 <br>
+
 `npm start`
