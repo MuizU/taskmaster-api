@@ -13,7 +13,7 @@ The application follows a standard client-server architecture. Your Express.js s
 * **Update:** Modify an existing task's details.
 * **Delete:** Remove a task from the database.
 
-# 🛠️ Prerequisites
+ 🛠️# Prerequisites
 
 * Node.js (LTS version recommended)
 * PostgreSQL
