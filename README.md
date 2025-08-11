@@ -13,7 +13,7 @@ The application follows a standard client-server architecture. Your Express.js s
 * **Update:** Modify an existing task's details.
 * **Delete:** Remove a task from the database.
 
- 🛠️# Prerequisites
+# 🛠️ Prerequisites
 
 * Node.js (LTS version recommended)
 * PostgreSQL
@@ -28,6 +28,7 @@ The application follows a standard client-server architecture. Your Express.js s
 cd taskmaster-api`
 
 2. **Install dependencies:**
+<br>
 `npm install`
 
 3. **Set up the database**
@@ -39,4 +40,5 @@ cd taskmaster-api`
 * Add your database credentials to the file.
 
 5. **Run the application**
+<br>
 `npm start`
