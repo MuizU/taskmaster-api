@@ -24,10 +24,10 @@ The application follows a standard client-server architecture. Your Express.js s
 
 1. **Clone the repository:**
 
-    `git clone https://github.com/MuizU/taskmaster-api.git
-    <br>
+    `git clone https://github.com/MuizU/taskmaster-api.git`
 
-    cd taskmaster-api`
+
+    `cd taskmaster-api`
 
 2. **Install dependencies:**
 <br>
