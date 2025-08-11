@@ -32,7 +32,7 @@ The application follows a standard client-server architecture. Your Express.js s
 2. **Install dependencies:**
 <br>
 
-    `npm install`
+    npm install
 
 3. **Set up the database**
 * Ensure your PostgreSQL server is runnign.
@@ -45,4 +45,4 @@ The application follows a standard client-server architecture. Your Express.js s
 5. **Run the application**
 <br>
 
-    `npm start`
+    npm start
