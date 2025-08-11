@@ -30,7 +30,7 @@ cd taskmaster-api`
 2. **Install dependencies:**
 <br>
 
-`npm install`
+    `npm install`
 
 3. **Set up the database**
 * Ensure your PostgreSQL server is runnign.
@@ -43,4 +43,4 @@ cd taskmaster-api`
 5. **Run the application**
 <br>
 
-`npm start`
+    `npm start`
