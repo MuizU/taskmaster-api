@@ -48,11 +48,12 @@ router
     const id = parseInt(req.params.id);
     const { title, completed } = req.body;
     try {
-      await pool.query(
+      const { rows } = await pool.query(
         "UPDATE todos SET title = $1, completed = $2 WHERE id = $3",
         [title, completed, id]
       );
-      res.json({ updated: true, todo: row[0] });
+      if (!rows.length) return res.status(404).json({ error: "Not Founds" });
+      res.json({ updated: true, todo: rows[0] });
     } catch (error) {
       next(error);
     }
@@ -63,7 +64,7 @@ router
       const { rowCount } = await pool.query("DELETE FROM todos WHERE id = $1", [
         id,
       ]);
-      if (!rowCount) return res.status(404).json({ error: "Not Founds" });
+      if (!rowCount) return res.status(404).json({ error: "Not Found" });
       return res.status(204).end();
     } catch (error) {
       next(error);
