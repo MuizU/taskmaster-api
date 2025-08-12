@@ -20,4 +20,4 @@ export const createSchema = Joi.object({
 export const updateSchema = Joi.object({
   title: titleValidation.optional(),
   completed: completedValidation,
-});
+}).min(1);
