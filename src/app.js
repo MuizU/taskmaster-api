@@ -1,5 +1,6 @@
 import express from "express";
-import todosRouter from "./routes/todos.js";
+import todosRouter from "./routes/todos";
+import "dotenv/config";
 
 const app = express();
 
