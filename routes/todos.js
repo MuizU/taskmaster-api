@@ -33,9 +33,7 @@ router
           return res.status(400).json({ error });
         }
 
-        return res
-          .status(201)
-          .json(`User added with ID: ${results.rows[0].id}`);
+        return res.status(201).json({ todo });
       }
     );
   });
@@ -52,7 +50,7 @@ router
         if (error) {
           return res.status(400).json({ error });
         }
-        return res.status(200).json(`User modified with ID: ${id}`);
+        return res.status(200).json({ updated: true, todo });
       }
     );
   })
@@ -62,7 +60,7 @@ router
       if (error) {
         return res.status(400);
       }
-      return res.status(200).json(`User deleted with ID: ${id}`);
+      return res.status(204);
     });
   });
 
