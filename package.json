@@ -6,7 +6,7 @@
     "clean": "rimraf dist",
     "build": "npm run clean && babel src --out-dir dist --extensions .js --source-maps inline --config-file ./babel.config.json --no-babelrc",
     "build:watch": "babel src --out-dir dist --extensions .js --watch --config-file ./babel.config.json --no-babelrc",
-    "start": "npm run build && node dist/app.js",
+    "start": "node dist/app.js",
     "dev": "concurrently -k \"npm:build:watch\" \"nodemon --watch dist --exec 'node --enable-source-maps dist/app.js'\""
   },
   "keywords": [],
