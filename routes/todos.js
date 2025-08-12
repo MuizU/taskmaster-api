@@ -13,55 +13,50 @@ const pool = new Pool({
 
 router
   .route("/")
-  .get((_req, res) => {
-    pool.query("SELECT * FROM todos ORDER BY id ASC", (error, results) => {
-      if (error) {
-        return res.status(400).json({ error });
-      }
-
-      return res.status(200).json(results.rows);
-    });
+  .get(async (_req, res, next) => {
+    try {
+      const { rows } = await pool.query("SELECT * FROM todos ORDER BY id ASC");
+      res.json(rows);
+    } catch (error) {
+      next(error);
+    }
   })
-  .post((req, res) => {
+  .post(async (req, res) => {
     const { title, completed } = req.body;
-
-    pool.query(
-      `INSERT INTO todos (title, completed) VALUES($1, $2) RETURNING *`,
-      [title, completed],
-      (error, results) => {
-        if (error) {
-          return res.status(400).json({ error });
-        }
-
-        return res.status(201).json({ todo });
-      }
-    );
+    try {
+      const { rows } = await pool.query(
+        `INSERT INTO todos (title, completed) VALUES($1, $2) RETURNING *`,
+        [title, completed]
+      );
+      res.json({ rows });
+    } catch (error) {
+      next(error);
+    }
   });
 
 router
   .route("/:id")
-  .put((req, res) => {
+  .put(async (req, res) => {
     const id = parseInt(req.params.id);
     const { title, completed } = req.body;
-    pool.query(
-      "UPDATE todos SET title = $1, completed = $2 WHERE id = $3",
-      [title, completed, id],
-      (error, _results) => {
-        if (error) {
-          return res.status(400).json({ error });
-        }
-        return res.status(200).json({ updated: true, todo });
-      }
-    );
+    try {
+      const { rows } = await pool.query(
+        "UPDATE todos SET title = $1, completed = $2 WHERE id = $3",
+        [title, completed, id]
+      );
+      res.json({ updated: true, todos });
+    } catch (error) {
+      next(error);
+    }
   })
-  .delete((req, res) => {
+  .delete(async (req, res) => {
     const id = parseInt(req.params.id);
-    pool.query("DELETE FROM todos WHERE id = $1", [id], (error, _results) => {
-      if (error) {
-        return res.status(400);
-      }
-      return res.status(204);
-    });
+    try {
+      await pool.query("DELETE FROM todos WHERE id = $1", [id]);
+      res.status(204);
+    } catch (error) {
+      next(error);
+    }
   });
 
 export default router;
