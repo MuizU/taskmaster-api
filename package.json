@@ -2,12 +2,12 @@
   "name": "todo-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "build": "babel src --out-dir dist --extensions .js",
+    "clean": "rimraf dist",
+    "build": "npm run clean && babel src --out-dir dist --extensions .js --source-maps inline --config-file ./babel.config.json --no-babelrc",
+    "build:watch": "babel src --out-dir dist --extensions .js --watch --config-file ./babel.config.json --no-babelrc",
     "start": "npm run build && node dist/app.js",
-    "dev": "npm run build:watch & nodemon dist/app.js",
-    "build:watch": "babel src --out-dir dist --extensions .js --watch"
+    "dev": "concurrently -k \"npm:build:watch\" \"nodemon --watch dist --exec 'node --enable-source-maps dist/app.js'\""
   },
   "keywords": [],
   "author": "",
@@ -24,6 +24,8 @@
     "@babel/cli": "^7.28.0",
     "@babel/core": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
-    "babel-plugin-add-import-extension": "^1.6.0"
+    "babel-plugin-add-import-extension": "^1.6.0",
+    "concurrently": "^9.2.0",
+    "rimraf": "^6.0.1"
   }
 }
