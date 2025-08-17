@@ -3,8 +3,9 @@ import todosRouter from "./routes/todos.js";
 import "dotenv/config";
 import * as realTodoService from "./services/todos.service.js";
 
-const app = express();
 export default function createApp({ todosService = realTodoService } = {}) {
+  const app = express();
+
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
