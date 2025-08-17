@@ -31,7 +31,7 @@ export default function createTodosRouter(todoService) {
     .get(async (req, res, next) => {
       const id = parseInt(req.params.id);
       try {
-        const todo = await todoService.getTodoById(req.body);
+        const todo = await todoService.getTodoById(id);
         if (!todo) return res.status(404).json({ error: "Not Found" });
         res.json({ todo: rows[0] });
       } catch (error) {
