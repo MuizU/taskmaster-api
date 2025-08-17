@@ -1,10 +1,11 @@
 import "dotenv/config";
-import app from "./app.js";
 import { pool } from "./db.js";
+import createApp from "./app.js";
 
 const PORT = process.env.PORT || 9000;
+const app = createApp({});
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
 
