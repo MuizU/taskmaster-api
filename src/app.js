@@ -1,7 +1,6 @@
 import express from "express";
 import todosRouter from "./routes/todos.js";
 import "dotenv/config";
-import cors from "cors";
 
 const app = express();
 
@@ -10,6 +9,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (_req, res) => {
   res.send("HELLO WORLD");
+});
+
+app.get("/hc", (_req, res) => {
+  res.status(200).send("OK");
 });
 
 app.use("/todos", todosRouter);
