@@ -12,9 +12,7 @@ const server = app.listen(PORT, () => {
 const shutdown = async (signal) => {
   try {
     await new Promise((resolve, reject) => {
-      ServiceWorkerRegistration.close((error) =>
-        error ? reject(error) : resolve()
-      );
+      server.close((error) => (error ? reject(error) : resolve()));
     });
 
     await pool.end(); // closing the posrgres pool
