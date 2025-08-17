@@ -40,7 +40,7 @@ export default function createTodosRouter(todoService) {
     .put(validate(updateSchema), async (req, res, next) => {
       const id = parseInt(req.params.id);
       try {
-        const todo = todoService.updateTodo(id, req.body);
+        const todo = await todoService.updateTodo(id, req.body);
         if (!todo) return res.status(404).json({ error: "Not Founds" });
         res.json({ updated: true, todo: todo });
       } catch (error) {
