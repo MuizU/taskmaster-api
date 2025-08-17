@@ -1,7 +1,6 @@
 import express from "express";
 import { validate } from "../middlewares/validate.js";
 import { createSchema, updateSchema } from "../validators/todo.schema.js";
-import { pool } from "../db.js";
 
 export default function createTodosRouter(todoService) {
   const router = express.Router();
