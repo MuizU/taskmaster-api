@@ -17,7 +17,6 @@ export default function createTodosRouter(todoService) {
       }
     })
     .post(validate(createSchema), async (req, res, next) => {
-      const { title, completed } = req.body;
       try {
         const todo = await todoService.createTodo(req.body);
         res.setHeader("Location", `/todos/${todo.id}`);
@@ -41,9 +40,8 @@ export default function createTodosRouter(todoService) {
     })
     .put(validate(updateSchema), async (req, res, next) => {
       const id = parseInt(req.params.id);
-      const { title, completed } = req.body;
       try {
-        const todo = todoService.updateTodo(id, { title, completed });
+        const todo = todoService.updateTodo(id, req.body);
         if (!todo) return res.status(404).json({ error: "Not Founds" });
         res.json({ updated: true, todo: rows[0] });
       } catch (error) {
