@@ -1,6 +1,6 @@
 import express from "express";
-import { validate } from "../middlewares/validate";
-import { createSchema, updateSchema } from "../validators/todo.schema";
+import { validate } from "../middlewares/validate.js";
+import { createSchema, updateSchema } from "../validators/todo.schema.js";
 import { pool } from "../db.js";
 
 const router = express.Router();
