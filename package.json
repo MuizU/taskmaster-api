@@ -6,8 +6,8 @@
     "clean": "rimraf dist",
     "build": "npm run clean && babel src --out-dir dist --extensions .js --source-maps inline --config-file ./babel.config.json --no-babelrc",
     "build:watch": "babel src --out-dir dist --extensions .js --watch --config-file ./babel.config.json --no-babelrc",
-    "start": "node dist/app.js",
-    "dev": "concurrently -k \"npm:build:watch\" \"nodemon --watch dist --exec 'node --enable-source-maps dist/app.js'\""
+    "dev": "concurrently -k \"npm:build:watch\" \"wait-on dist/server.js && nodemon --watch dist --exec 'node --enable-source-maps dist/server.js'\"",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +28,7 @@
     "@babel/preset-env": "^7.28.0",
     "babel-plugin-add-import-extension": "^1.6.0",
     "concurrently": "^9.2.0",
-    "rimraf": "^6.0.1"
+    "rimraf": "^6.0.1",
+    "wait-on": "^8.0.4"
   }
 }
