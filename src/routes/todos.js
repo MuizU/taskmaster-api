@@ -10,7 +10,7 @@ export default function createTodosRouter(todoService) {
     .route("/")
     .get(async (_req, res, next) => {
       try {
-        const { rows } = await todoService.listTodos();
+        const rows = await todoService.listTodos();
         res.json(rows);
       } catch (error) {
         next(error);
@@ -33,7 +33,7 @@ export default function createTodosRouter(todoService) {
       try {
         const todo = await todoService.getTodoById(id);
         if (!todo) return res.status(404).json({ error: "Not Found" });
-        res.json({ todo: rows[0] });
+        res.json({ todo: todo });
       } catch (error) {
         next(error);
       }
@@ -43,7 +43,7 @@ export default function createTodosRouter(todoService) {
       try {
         const todo = todoService.updateTodo(id, req.body);
         if (!todo) return res.status(404).json({ error: "Not Founds" });
-        res.json({ updated: true, todo: rows[0] });
+        res.json({ updated: true, todo: todo });
       } catch (error) {
         next(error);
       }
@@ -51,7 +51,7 @@ export default function createTodosRouter(todoService) {
     .delete(async (req, res, next) => {
       const id = parseInt(req.params.id);
       try {
-        const rowCount = todoService.deleteTodo(id);
+        const rowCount = await todoService.deleteTodo(id);
         if (!rowCount) return res.status(404).json({ error: "Not Found" });
         return res.status(204).end();
       } catch (error) {
