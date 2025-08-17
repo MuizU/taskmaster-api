@@ -23,7 +23,7 @@ router
         [title, completed]
       );
       const todo = rows[0];
-      res.setHeader("Location", `/todos/${todo.ids}`);
+      res.setHeader("Location", `/todos/${todo.id}`);
       res.status(201).json({ todo });
     } catch (error) {
       next(error);
@@ -49,7 +49,7 @@ router
     const { title, completed } = req.body;
     try {
       const { rows } = await pool.query(
-        "UPDATE todos SET title = $1, completed = $2 WHERE id = $3",
+        "UPDATE todos SET title = $1, completed = $2 WHERE id = $3 RETURNING *",
         [title, completed, id]
       );
       if (!rows.length) return res.status(404).json({ error: "Not Founds" });
