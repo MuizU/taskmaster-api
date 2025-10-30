@@ -1,37 +1,26 @@
-import { pool } from "../db.js";
+import { prisma } from "../prisma.js";
 
 export async function listUsersModel() {
-  const { rows } = await pool.query("SELECT * FROM users ORDER BY id ASC");
-  return rows;
+  return prisma.user.findMany({ orderBy: { id: "asc" } });
 }
 
 export async function createUserModel({ username, email }) {
-  const { rows } = await pool.query(
-    "INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *",
-    [username, email]
-  );
-
-  return rows[0];
+  return prisma.user.create({ data: { username, email } });
 }
 
 export async function getUserByIdModel(id) {
-  const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
-  return rows[0] ?? null;
+  return prisma.user.findUnique({ where: { id } });
 }
 
 export async function updateUserModel(id, { username, email }) {
-  const { rows } = await pool.query(
-    "UPDATE users SET username = $1, email = $2 WHERE id = $3 RETURNING *",
-    [username, email, id]
-  );
+  const data = {};
+  if (typeof username !== "undefined") data.username = username;
+  if (typeof email !== "undefined") data.email = email;
 
-  return rows[0] ?? null;
+  return prisma.user.update({ where: { id }, data });
 }
 
 export async function deleteUserModel(id) {
-  const { rowCount } = await pool.query("DELETE FROM users WHERE id = $1", [
-    id,
-  ]);
-
-  return rowCount > 0;
+  const res = await prisma.user.deleteMany({ where: { id } });
+  return res.count > 0;
 }
