@@ -6,8 +6,8 @@ import {
   deleteTodoModel,
 } from "../models/todos.model.js";
 
-export async function listTodos() {
-  return listTodosModel();
+export async function listTodos(userId = null) {
+  return listTodosModel(userId);
 }
 
 export async function createTodo(payload) {
