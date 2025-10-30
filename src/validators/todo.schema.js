@@ -15,9 +15,11 @@ const completedValidation = Joi.bool().default(false).optional();
 export const createSchema = Joi.object({
   title: titleValidation.required(),
   completed: completedValidation,
+  user_id: Joi.number().integer().positive().optional(),
 });
 
 export const updateSchema = Joi.object({
   title: titleValidation.optional(),
   completed: completedValidation,
+  user_id: Joi.number().integer().positive().optional(),
 }).min(1);
