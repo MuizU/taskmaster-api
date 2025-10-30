@@ -1,15 +1,21 @@
+
 import express from "express";
 import todosRouter from "./routes/todos.js";
 import usersRouter from "./routes/users.js";
 import "dotenv/config";
 import * as realTodoService from "./services/todos.service.js";
 import * as realUserService from "./services/users.service.js";
+import { swaggerUi, swaggerSpec } from "./swagger.js";
 
 export default function createApp({ todosService = realTodoService } = {}) {
   const app = express();
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+
+
+  // Swagger docs route
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
   app.get("/", (_req, res) => {
     res.send("HELLO WORLD");
