@@ -1,7 +1,9 @@
 import express from "express";
 import todosRouter from "./routes/todos.js";
+import usersRouter from "./routes/users.js";
 import "dotenv/config";
 import * as realTodoService from "./services/todos.service.js";
+import * as realUserService from "./services/users.service.js";
 
 export default function createApp({ todosService = realTodoService } = {}) {
   const app = express();
@@ -18,6 +20,7 @@ export default function createApp({ todosService = realTodoService } = {}) {
   });
 
   app.use("/todos", todosRouter(todosService));
+  app.use("/users", usersRouter(realUserService));
 
   app.use((error, _req, res, _next) => {
     console.error(error);
