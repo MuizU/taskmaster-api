@@ -1,48 +1,127 @@
 # Taskmaster API 🚀
 
-This is a RESTful API built with Node.js for managing tasks. It provides a simiple, yet robust backend for a to-do application, leveraging PostgreSQL as the persistent data store.
+Taskmaster is a RESTful API built with Node.js and Express to manage tasks (todos). It uses Prisma as the ORM with PostgreSQL as the backing database.
 
+This README has been updated to reflect recent changes: Prisma integration and tests, Swagger API documentation (available at `/api-docs`), and security/performance middleware (`helmet`, `compression`, and `express-rate-limit`).
 
-# ⚙️ How it works
-The application follows a standard client-server architecture. Your Express.js server exposes a series of API endpoints athat handle HTTP requests from a client-side application. The server acts as a middleman, receiving these requests and interacting with a PostgreSQL databse to perform CRUD operations on your tasks. It uses the `node-postgres` library (`pg`) to manage the CRUD operations and executre SQL queries, ensuring a secure and efficient data flow.
+## ✨ Features
 
-# ✨Features
+- Create, read, update, delete todos
+- User <-> Todo relationship (todos optionally belong to a `User`)
+- Prisma ORM for database access and migrations
+- Swagger UI for API documentation at `/api-docs`
+- Security & performance middleware: `helmet`, `compression`, and `express-rate-limit`
 
-* **Create:** Add a new task to the database.
-* **Read:** Retrieve a list of all tasks.
-* **Update:** Modify an existing task's details.
-* **Delete:** Remove a task from the database.
+## 🛠 Prerequisites
 
-# 🛠️ Prerequisites
+- Node.js (LTS recommended)
+- PostgreSQL (local or hosted)
+- npm (or yarn)
 
-* Node.js (LTS version recommended)
-* PostgreSQL
-* npm (or yarn)
+## Quickstart
 
+1. Clone the repository and install dependencies:
 
-# 🚀 Getting Started
+```bash
+git clone https://github.com/MuizU/taskmaster-api.git
+cd taskmaster-api
+npm install
+```
 
-1. **Clone the repository:**
+2. Create a `.env` in the project root and set the following (example):
 
-    `git clone https://github.com/MuizU/taskmaster-api.git`
+```bash
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
+PORT=3000
+```
 
+3. Prisma setup (generate client + run migrations):
 
-    `cd taskmaster-api`
+```bash
+npx prisma generate
+# For development: create and apply a migration interactively
+npx prisma migrate dev --name init
+```
 
-2. **Install dependencies:**
-<br>
+4. Run the app:
 
-    npm install
+```bash
+# development (with nodemon)
+npm run dev
 
-3. **Set up the database**
-* Ensure your PostgreSQL server is runnign.
-* Create a databse and a `todos` table using a cli tool or a GUI like pgAdmin.
+# production
+npm start
+```
 
-4. **Configure environment variables:**
-* Create a `.env` file in the project root.
-* Add your database credentials to the file.
+The API will be available at `http://localhost:3000` (or the port set in `PORT`).
 
-5. **Run the application**
-<br>
+## Swagger (API docs)
 
-    npm start
+Interactive API documentation is available at:
+
+```
+GET /api-docs
+```
+
+The project uses `swagger-jsdoc` and `swagger-ui-express`. You can add documentation comments in route files under `src/routes/` to expand the OpenAPI spec used by Swagger.
+
+## Security & Performance Middleware
+
+This project now includes:
+
+- `helmet` — sets secure HTTP headers
+- `compression` — enables gzip compression for responses
+- `express-rate-limit` — basic rate limiting (defaults to 100 requests per 15 minutes)
+
+These are enabled in the Express app by default. Adjust their configuration in `src/app.js` if you need different limits or headers.
+
+## Tests
+
+Unit and integration tests are written with Jest and Supertest. There are tests that:
+
+- Exercise the routers using mocked services (unit tests)
+- Test Prisma integration (these talk to the database and require a configured `DATABASE_URL`)
+- Validate the Swagger UI is served at `/api-docs`
+- Verify the security and performance middleware (headers, gzip, and rate limiting)
+
+Run the test suite with:
+
+```bash
+# run jest tests (configured for ESM)
+npm run test:jest
+```
+
+Important notes for running Prisma tests:
+
+- The Prisma integration tests hit a real database. Point `DATABASE_URL` in your `.env` to a test database (not your production DB).
+- Run `npx prisma migrate deploy` or `npx prisma migrate dev` against that test DB before running tests so the schema is up-to-date.
+- After tests, the test suite attempts to clean up rows it created, but be prepared to reset the test DB if needed.
+
+## Environment variables
+
+- `DATABASE_URL` — PostgreSQL connection string (required for Prisma tests and runtime)
+- `PORT` — optional server port (default: 3000)
+
+## New / Important Dependencies
+
+- `@prisma/client`, `prisma` — Prisma ORM and client
+- `swagger-jsdoc`, `swagger-ui-express` — Swagger/OpenAPI docs
+- `helmet`, `compression`, `express-rate-limit` — security and performance
+
+## Troubleshooting
+
+- If tests that touch the database fail, ensure the `DATABASE_URL` is correct and migrations have been applied.
+- If Swagger doesn't show new routes, add JSDoc-style comments to files matched by `src/swagger.js`'s `apis` globs and restart the server.
+
+## Contributing
+
+Feel free to open issues or PRs. For changes that affect DB schema, add a Prisma migration and update tests where needed.
+
+---
+
+If you'd like, I can also:
+
+- Add an endpoint that exposes the raw OpenAPI JSON (`/api-docs.json`) so other tools can consume it programmatically
+- Add a separate `npm test` script that runs only fast unit tests (non-database) and another for full integration tests
+
+Tell me which you'd prefer and I can implement them.
